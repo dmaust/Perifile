@@ -45,8 +45,10 @@ def fetch_user_cached(username):
         .first()
     ttl = 3600
     if user_metrics is None or (time.time() - user_metrics.time_retrieved) > ttl:
+        # Fetch from site.
         return fetch_user_data(username)
     else:
+        # Return cached copy
         return user_metrics
 
 
