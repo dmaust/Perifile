@@ -12,17 +12,37 @@
 
 <style>
     #periscope{
-        width: 30em; border: 1em solid silver; background: whitesmoke; border-radius: 1em; text-align: center; }
-    #heart{ display: block; text-align: center; font-size: 16em; font-weight: bold; color: #0099ff; }
-    .metrics{ font-weight: bold; font-size: 6em; color: white; background: hotpink; border-radius: 2em; padding: .2em; display: block; }
+        width: 30em;
+        border: 1em solid silver;
+        background: whitesmoke;
+        border-radius: 1em;
+        text-align: center; }
+    #heart{
+        display: block;
+        text-align: center;
+        font-size: 16em;
+        font-weight: bold;
+        color: #0099ff;
+    }
+    .metrics{
+        font-weight: bold;
+        font-size: 4em;
+        color: white;
+        background: hotpink;
+        border-radius: 2em;
+        padding: .2em;
+        display: block;
+    }
 </style>
 
 <div id="periscope">
     <h1>{{username}}</h1>
     <span id="heart">&hearts;</span>
-    <span class="metrics">Hearts: {{hearts}}</span>
-    <span class="metrics">Followers: {{followers}}</span>
-    <span class="metrics">Following: {{following}}</span>
+    <span class="metrics">
+        Hearts: {{hearts}}<br />
+        Followers: {{followers}}<br />
+        Following: {{following}}<br />
+    </span>
 </div>
 
 </body>
