@@ -8,7 +8,7 @@ from lxml import etree
 import json
 from cStringIO import StringIO
 import requests
-
+from sqlalchemy import desc
 import time
 
 def fetch_user_data(username):
@@ -39,8 +39,12 @@ def fetch_user_data(username):
 
 def fetch_user_cached(username):
     subq = db.session.query(models.User.id).filter(models.User.username==username).subquery('u')
-    user_metrics = models.UserMetrics.query.filter(models.UserMetrics.user_id.in_(subq)).first()
-    if user_metrics is None:
+    user_metrics = models.UserMetrics\
+        .query.filter(models.UserMetrics.user_id.in_(subq))\
+        .order_by(desc(models.UserMetrics.time_retrieved))\
+        .first()
+    ttl = 3600
+    if user_metrics is None or (time.time() - user_metrics.time_retrieved) > ttl:
         return fetch_user_data(username)
     else:
         return user_metrics
