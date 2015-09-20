@@ -26,10 +26,25 @@ def fetch_user_data(username):
         db.session.add(user)
         db.session.flush()
 
-    metrics = models.UserMetrics(user_id=user.id, time_retrieved=time.time(), followers=followers, following=following, hearts=hearts)
+    metrics = models.UserMetrics(
+        user_id=user.id,
+        time_retrieved=time.time(),
+        followers=followers,
+        following=following,
+        hearts=hearts)
+
     db.session.add(metrics)
     db.session.commit()
     return metrics
+
+def fetch_user_cached(username):
+    subq = db.session.query(models.User.id).filter(models.User.username==username).subquery('u')
+    user_metrics = models.UserMetrics.query.filter(models.UserMetrics.user_id.in_(subq)).first()
+    if user_metrics is None:
+        return fetch_user_data(username)
+    else:
+        return user_metrics
+
 
 
 
