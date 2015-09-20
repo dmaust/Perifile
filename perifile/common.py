@@ -43,7 +43,7 @@ def fetch_user_cached(username):
         .query.filter(models.UserMetrics.user_id.in_(subq))\
         .order_by(desc(models.UserMetrics.time_retrieved))\
         .first()
-    ttl = 5
+    ttl = 3600
     if user_metrics is None or (time.time() - user_metrics.time_retrieved) > ttl:
         # Fetch from site.
         return fetch_user_data(username)
